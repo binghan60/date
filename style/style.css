@@ -1,0 +1,88 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+html,
+body {
+	height: 100%;
+}
+
+body {
+	font-family: 'Poppins', sans-serif;
+}
+
+.container {
+	background-color: #0a84ff;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.calendar {
+	background-color: white;
+	border: 1px solid #efefef;
+	border-radius: 8px;
+	box-shadow: 0 5px 25px -5px rgba(0, 0, 0, 0.15);
+	max-width: 350px;
+	padding: 8px;
+	width: 100%;
+}
+
+.days-header,
+.days {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+
+	> span {
+		position: relative;
+		width: 45px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	}
+}
+
+.dots {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	width: 100%;
+	bottom: 8px;
+
+	.dot {
+		display: inline-flex;
+		height: 4px;
+		width: 4px;
+		margin: 0 2px;
+		border-radius: 4px;
+		background-color: red;
+		pointer-events: none;
+	}
+}
+
+.days {
+	> span {
+		height: 45px;
+		border-radius: 8px;
+
+		&:hover {
+			background-color: #f7fcff;
+			cursor: pointer;
+		}
+	}
+}
+
+.days-header {
+	height: 30px;
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.disable {
+	color: #bebebe;
+}

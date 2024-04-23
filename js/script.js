@@ -92,10 +92,10 @@ Module.setDot = function (year, month, day, event) {
 onChildAdded(ref(db, 'date'), (data) => {
 	const dataObj = data.val();
 	const element = document.querySelector(`#day${dataObj.day}`);
-	if (element === null) {
-		location.href = location.href;
-		return;
-	}
+	// if (element === null) {
+	// 	location.href = location.href;
+	// 	return;
+	// }
 	const dot = document.createElement('span');
 	dot.className = 'dot';
 	dot.id = `dot${data.key}`;

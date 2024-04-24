@@ -21,9 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const dataObj = data.val();
 		const element = document.querySelector(`#day${dataObj.day}`);
 		const dot = document.createElement('span');
-		console.log(dot);
-		dot.className = 'dot';
-		dot.className = UserLineID;
+		dot.classList.add('dot', dataObj.UserLineID);
 		dot.id = data.key;
 		element?.appendChild(dot);
 	});

@@ -23,15 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		const dot = document.createElement('span');
 		console.log(dot);
 		dot.className = 'dot';
+		dot.className = UserLineID;
 		dot.id = data.key;
 		element?.appendChild(dot);
 	});
 	onChildRemoved(ref(db, 'date'), (data) => {
-		console.log(data.key);
 		const dot = document.querySelector(`#${data.key}`);
 		dot.remove();
-		console.log(dot);
-		// messageBox.removeChild(dot);
 	});
 });
 async function init() {

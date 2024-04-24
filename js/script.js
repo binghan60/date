@@ -17,6 +17,22 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 document.addEventListener('DOMContentLoaded', () => {
 	init();
+	onChildAdded(ref(db, 'date'), (data) => {
+		const dataObj = data.val();
+		const element = document.querySelector(`#day${dataObj.day}`);
+		const dot = document.createElement('span');
+		console.log(dot);
+		dot.className = 'dot';
+		dot.id = data.key;
+		element?.appendChild(dot);
+	});
+	onChildRemoved(ref(db, 'date'), (data) => {
+		console.log(data.key);
+		const dot = document.querySelector(`#${data.key}`);
+		dot.remove();
+		console.log(dot);
+		// messageBox.removeChild(dot);
+	});
 });
 async function init() {
 	await liff.init({ liffId });
@@ -63,9 +79,7 @@ function updateCalendar(year, month, day = '') {
 		document.querySelector('.calendar .days').innerHTML += '<span></span>';
 	}
 }
-function removeDate(key) {
-	remove(ref(db, 'date/' + key));
-}
+
 Module.setDot = function (year, month, day, event) {
 	const createTime = new Date();
 	const timestamp = createTime.getTime();
@@ -73,7 +87,7 @@ Module.setDot = function (year, month, day, event) {
 	if (haveDot === null) {
 		// const dots = event.target.querySelector('.dots');
 		// dots.innerHTML = `<span id=dot${timestamp} class=dot></span>`;
-		set(ref(db, 'date/' + timestamp), {
+		set(ref(db, 'date/' + UserLineID + timestamp), {
 			UserLineID,
 			UserName,
 			year,
@@ -82,28 +96,9 @@ Module.setDot = function (year, month, day, event) {
 			createTime,
 		});
 	} else {
-		const parentElement = haveDot.parentNode;
-		const ID = haveDot.id.substring(3);
-		parentElement.removeChild(haveDot);
-		remove(ref(db, 'date/' + ID));
+		// const parentElement = haveDot.parentNode;
+		// parentElement.removeChild(haveDot);
+		// console.log(haveDot.id);
+		remove(ref(db, 'date/' + haveDot.id));
 	}
 };
-
-onChildAdded(ref(db, 'date'), (data) => {
-	const dataObj = data.val();
-	const element = document.querySelector(`#day${dataObj.day}`);
-	if (element === null) {
-		alert('出錯啦，重新整理一下');
-		// location.href = location.href;
-		return;
-	}
-
-	const dot = document.createElement('span');
-	dot.className = 'dot';
-	dot.id = `dot${data.key}`;
-	element?.appendChild(dot);
-});
-onChildRemoved(ref(db, 'message'), (data) => {
-	const dot = document.querySelector(`#day${data.key}`);
-	messageBox.removeChild(dot);
-});

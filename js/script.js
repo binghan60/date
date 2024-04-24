@@ -79,10 +79,8 @@ function updateCalendar(year, month, day = '') {
 Module.setDot = function (year, month, day, event) {
 	const createTime = new Date();
 	const timestamp = createTime.getTime();
-	const haveDot = event.target.querySelector('.dot');
+	const haveDot = event.target.querySelector(`.dot.${UserLineID}`);
 	if (haveDot === null) {
-		// const dots = event.target.querySelector('.dots');
-		// dots.innerHTML = `<span id=dot${timestamp} class=dot></span>`;
 		set(ref(db, 'date/' + UserLineID + timestamp), {
 			UserLineID,
 			UserName,
@@ -92,9 +90,6 @@ Module.setDot = function (year, month, day, event) {
 			createTime,
 		});
 	} else {
-		// const parentElement = haveDot.parentNode;
-		// parentElement.removeChild(haveDot);
-		// console.log(haveDot.id);
 		remove(ref(db, 'date/' + haveDot.id));
 	}
 };

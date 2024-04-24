@@ -92,3 +92,9 @@ body {
 .disable {
 	color: #bebebe;
 }
+.icon {
+	color: #bebebe;
+}
+.icon:hover {
+	color: #000;
+}

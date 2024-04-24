@@ -17,18 +17,6 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 document.addEventListener('DOMContentLoaded', () => {
 	init();
-	onChildAdded(ref(db, 'date'), (data) => {
-		const dataObj = data.val();
-		const element = document.querySelector(`#day${dataObj.day}`);
-		const dot = document.createElement('span');
-		dot.classList.add('dot', dataObj.UserLineID);
-		dot.id = data.key;
-		element?.appendChild(dot);
-	});
-	onChildRemoved(ref(db, 'date'), (data) => {
-		const dot = document.querySelector(`#${data.key}`);
-		dot.remove();
-	});
 });
 async function init() {
 	await liff.init({ liffId });
@@ -49,6 +37,18 @@ async function init() {
 	const month = now.getMonth() + 1;
 	const day = now.getDate();
 	updateCalendar(year, month, day);
+	onChildAdded(ref(db, 'date'), (data) => {
+		const dataObj = data.val();
+		const element = document.querySelector(`#day${dataObj.day}`);
+		const dot = document.createElement('span');
+		dot.classList.add('dot', dataObj.UserLineID);
+		dot.id = data.key;
+		element?.appendChild(dot);
+	});
+	onChildRemoved(ref(db, 'date'), (data) => {
+		const dot = document.querySelector(`#${data.key}`);
+		dot.remove();
+	});
 }
 function updateCalendar(year, month, day = '') {
 	day--;

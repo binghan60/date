@@ -94,6 +94,7 @@ body {
 }
 .icon {
 	color: #bebebe;
+	user-select: none;
 }
 .icon:hover {
 	color: #000;

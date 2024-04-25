@@ -3,6 +3,13 @@ import { getDatabase, ref, set, remove, onChildAdded, onChildRemoved } from 'htt
 let UserLineID;
 let UserName;
 let UserAvatar;
+const globalDate = new Date();
+const globalTime = {
+	year: globalDate.getFullYear(),
+	month: globalDate.getMonth() + 1,
+	day: globalDate.getDate(),
+};
+console.log(globalTime);
 const liffId = '2004399791-1P0wl6O3';
 const firebaseConfig = {
 	apiKey: 'AIzaSyDiZCrASUKeHznvMqOnFleo2dEkEIBlD50',
@@ -38,6 +45,7 @@ async function init() {
 	const day = now.getDate();
 	Module.changeCalendar(year, month, day);
 	onChildAdded(ref(db, 'date'), (data) => {
+		console.log(data.val());
 		const dataObj = data.val();
 		const element = document.querySelector(`#day${dataObj.day}`);
 		const dot = document.createElement('span');
@@ -58,7 +66,7 @@ Module.changeCalendar = function (year, month, day = '') {
 	const totalShowDay = 42;
 	const whiteDay = totalShowDay - daysInMonth;
 	document.querySelector('.calendar .days').innerHTML = '';
-	document.querySelector('.calendar .month').innerHTML = `${year} <i class="icon fa-solid fa-caret-left" onclick="Module.changeCalendar(${year},${month - 1})"></i> ${monthOfYear[month - 1]} <i class="icon fa-solid fa-caret-right" onclick=Module.changeCalendar(${year},${month + 1})></i>`;
+	document.querySelector('.calendar .month').innerHTML = `${year} <i class="icon fa-solid fa-caret-left"></i> ${monthOfYear[month - 1]} <i class="icon fa-solid fa-caret-right"></i>`;
 	for (let i = 0; i < firstDayOfMonth; i++) {
 		document.querySelector('.calendar .days').innerHTML += '<span></span>';
 	}

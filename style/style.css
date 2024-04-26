@@ -55,8 +55,8 @@ body {
 
 	.dot {
 		display: inline-flex;
-		height: 6px;
-		width: 6px;
+		height: 8px;
+		width: 8px;
 		margin: 0 2px;
 		border-radius: 4px;
 		/* background-color: red; */

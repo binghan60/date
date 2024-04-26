@@ -79,7 +79,8 @@ Module.changeCalendar = function (year, month, day = '') {
 	const totalShowDay = 42;
 	const whiteDay = totalShowDay - daysInMonth;
 	document.querySelector('.calendar .days').innerHTML = '';
-	document.querySelector('.calendar .month').innerHTML = `${year} <i class="icon fa-solid fa-caret-left" onclick="${month <= 1 ? `Module.changeCalendar(${year - 1},${month + 11})` : `Module.changeCalendar(${year},${month - 1})`}"></i> <span style="display:inline-block;text-align:center;width:160px">${monthOfYear[month - 1]}</span> <i class="icon fa-solid fa-caret-right" onclick="${month >= 12 ? `Module.changeCalendar(${year + 1},${month - 11})` : `Module.changeCalendar(${year},${month + 1})`}"></i>`;
+	// document.querySelector('.calendar .month').innerHTML = `${year} <i class="icon fa-solid fa-caret-left" onclick="${month <= 1 ? `Module.changeCalendar(${year - 1},${month + 11})` : `Module.changeCalendar(${year},${month - 1})`}"></i> <span style="display:inline-block;text-align:center;width:160px">${monthOfYear[month - 1]}</span> <i class="icon fa-solid fa-caret-right" onclick="${month >= 12 ? `Module.changeCalendar(${year + 1},${month - 11})` : `Module.changeCalendar(${year},${month + 1})`}"></i>`;
+	document.querySelector('.calendar .month').innerHTML = `${year} <i class="icon fa-solid fa-caret-left"></i> <span style="display:inline-block;text-align:center;width:160px">${monthOfYear[month - 1]}</span> <i class="icon fa-solid fa-caret-right"></i>`;
 	for (let i = 0; i < firstDayOfMonth; i++) {
 		document.querySelector('.calendar .days').innerHTML += '<span></span>';
 	}

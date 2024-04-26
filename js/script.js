@@ -44,19 +44,6 @@ async function init() {
 	const month = now.getMonth() + 1;
 	const day = now.getDate();
 	Module.changeCalendar(year, month, day);
-	onChildAdded(ref(db, 'date'), (data) => {
-		const dataObj = data.val();
-		const element = document.querySelector(`#day${dataObj.day}`);
-		const dot = document.createElement('span');
-		dot.style.backgroundColor = UserColor;
-		dot.classList.add('dot', dataObj.UserLineID);
-		dot.id = data.key;
-		element?.appendChild(dot);
-	});
-	onChildRemoved(ref(db, 'date'), (data) => {
-		const dot = document.querySelector(`#${data.key}`);
-		dot.remove();
-	});
 	onChildAdded(ref(db, 'user'), (data) => {
 		const user = data.val();
 		const userIcon = `<div>
@@ -70,6 +57,19 @@ async function init() {
 		if (UserColor) {
 			document.querySelector('#loading').style.display = 'none';
 		}
+	});
+	onChildAdded(ref(db, 'date'), (data) => {
+		const dataObj = data.val();
+		const element = document.querySelector(`#day${dataObj.day}`);
+		const dot = document.createElement('span');
+		dot.style.backgroundColor = UserColor;
+		dot.classList.add('dot', dataObj.UserLineID);
+		dot.id = data.key;
+		element?.appendChild(dot);
+	});
+	onChildRemoved(ref(db, 'date'), (data) => {
+		const dot = document.querySelector(`#${data.key}`);
+		dot.remove();
 	});
 }
 Module.changeCalendar = function (year, month, day = '') {

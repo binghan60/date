@@ -3,6 +3,7 @@ import { getDatabase, ref, set, remove, onChildAdded, onChildRemoved } from 'htt
 let UserLineID;
 let UserName;
 let UserAvatar;
+let UserColor;
 const globalDate = new Date();
 const globalTime = {
 	year: globalDate.getFullYear(),
@@ -33,11 +34,11 @@ async function init() {
 	UserLineID = profile.userId;
 	UserName = profile.displayName;
 	UserAvatar = profile.pictureUrl;
-	set(ref(db, 'user/' + UserLineID), {
-		UserLineID,
-		UserName,
-		UserAvatar,
-	});
+	// set(ref(db, 'user/' + UserLineID), {
+	// 	UserLineID,
+	// 	UserName,
+	// 	UserAvatar,
+	// });
 	const now = new Date();
 	const year = now.getFullYear();
 	const month = now.getMonth() + 1;
@@ -48,6 +49,7 @@ async function init() {
 		const dataObj = data.val();
 		const element = document.querySelector(`#day${dataObj.day}`);
 		const dot = document.createElement('span');
+		dot.style.backgroundColor = UserColor;
 		dot.classList.add('dot', dataObj.UserLineID);
 		dot.id = data.key;
 		element?.appendChild(dot);
@@ -56,9 +58,17 @@ async function init() {
 		const dot = document.querySelector(`#${data.key}`);
 		dot.remove();
 	});
+	onChildAdded(ref(db, 'user'), (data) => {
+		const user = data.val();
+		const userIcon = `<div>
+							<span class="icon" style="background-color:${user.color}"></span>
+							<span class="userName">${user.UserName}</span>
+						</div>`;
+		document.querySelector('.member').innerHTML += userIcon;
+		UserColor = user.color;
+	});
 }
 Module.changeCalendar = function (year, month, day = '') {
-	const temDate = new Date(year, month);
 	const daysInMonth = new Date(year, month, 0).getDate();
 	const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
 	const monthOfYear = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -66,7 +76,7 @@ Module.changeCalendar = function (year, month, day = '') {
 	const whiteDay = totalShowDay - daysInMonth;
 	document.querySelector('.calendar .days').innerHTML = '';
 	console.log(month);
-	document.querySelector('.calendar .month').innerHTML = `${year} <i class="icon fa-solid fa-caret-left" onclick="${month <= 1 ? `Module.changeCalendar(${year - 1},${month + 11})` : `Module.changeCalendar(${year},${month - 1})`}"></i> <span style="display:inline-block;text-align:center;width:180px">${monthOfYear[month - 1]}</span> <i class="icon fa-solid fa-caret-right" onclick="${month >= 12 ? `Module.changeCalendar(${year + 1},${month - 11})` : `Module.changeCalendar(${year},${month + 1})`}"></i>`;
+	document.querySelector('.calendar .month').innerHTML = `${year} <i class="icon fa-solid fa-caret-left" onclick="${month <= 1 ? `Module.changeCalendar(${year - 1},${month + 11})` : `Module.changeCalendar(${year},${month - 1})`}"></i> <span style="display:inline-block;text-align:center;width:160px">${monthOfYear[month - 1]}</span> <i class="icon fa-solid fa-caret-right" onclick="${month >= 12 ? `Module.changeCalendar(${year + 1},${month - 11})` : `Module.changeCalendar(${year},${month + 1})`}"></i>`;
 	for (let i = 0; i < firstDayOfMonth; i++) {
 		document.querySelector('.calendar .days').innerHTML += '<span></span>';
 	}
@@ -100,23 +110,7 @@ Module.setDot = function (year, month, day, event) {
 		remove(ref(db, 'date/' + haveDot.id));
 	}
 };
-//根據傳入的年月日生出日曆
-//月份>12或<1 要改變年分
+//寫一個function針對當月生點點 給id
 
-//根據年月產生點點
-
-//傳入2024年1月
-//按鈕應該2023年12月
-
-//2024 0
-//2023 12
-
-// `${month <= 0 ? 'onclick=Module.changeCalendar(${year-1},${month+12})' : 'onclick=Module.changeCalendar(${year},${month-1})'}`;
-
-// onclick=Module.changeCalendar(${year},${month - 1})
-
-//原來的
-//onclick=Module.changeCalendar(${year},${month - 1})
-
-//錯的
-//${month <= 0 ? 'onclick=Module.changeCalendar(${year-1},${month+12})' : 'onclick=Module.changeCalendar(${year},${month-1})'}
+//在onChildAdd中儲存FireBase傳來的資料
+//寫一個function在(年,月,日)創造點點
